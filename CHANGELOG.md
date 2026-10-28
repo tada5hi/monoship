@@ -9,6 +9,23 @@
 * **deps:** bump libnpmpublish from 9.0.8 to 9.0.9 ([#131](https://github.com/tada5hi/workspaces-publish/issues/131)) ([10c2d17](https://github.com/tada5hi/workspaces-publish/commit/10c2d177b48f85538768fadfbf5499492e14a7b0))
 * **deps:** bump the minorandpatch group with 14 updates ([#297](https://github.com/tada5hi/workspaces-publish/issues/297)) ([3be75b1](https://github.com/tada5hi/workspaces-publish/commit/3be75b19e990a929dd61f51b3734e549f01c6f47))
 
+## [2.2.1](https://github.com/tada5hi/monoship/compare/v2.2.0...v2.2.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps-dev:** bump @humanfs/node from 0.16.7 to 0.16.8 ([#454](https://github.com/tada5hi/monoship/issues/454)) ([631d0e1](https://github.com/tada5hi/monoship/commit/631d0e15a9e2a628831e02334a4184443438a3d1))
+* **deps-dev:** bump baseline-browser-mapping from 2.10.21 to 2.11.22 ([#459](https://github.com/tada5hi/monoship/issues/459)) ([33e9ba1](https://github.com/tada5hi/monoship/commit/33e9ba150c0f5586900c707b4eca7df34a08c260))
+* **deps-dev:** bump fast-uri from 3.1.0 to 3.1.7 ([#455](https://github.com/tada5hi/monoship/issues/455)) ([a98fbe7](https://github.com/tada5hi/monoship/commit/a98fbe738d1d315ad6b5b056c37ed956f4c59534))
+* **deps-dev:** bump fast-uri from 3.1.7 to 3.1.9 ([#471](https://github.com/tada5hi/monoship/issues/471)) ([c591552](https://github.com/tada5hi/monoship/commit/c591552c338d4a16125cce5a766e3d299f3264ca))
+* **deps-dev:** bump js-yaml from 4.1.1 to 4.3.2 ([#461](https://github.com/tada5hi/monoship/issues/461)) ([fbe49f5](https://github.com/tada5hi/monoship/commit/fbe49f5805e087561630e790ddb4f1811960fa40))
+* **deps-dev:** bump vite from 8.3.0 to 8.3.5 ([#468](https://github.com/tada5hi/monoship/issues/468)) ([e3b88de](https://github.com/tada5hi/monoship/commit/e3b88de9399014395fc7ea7dea2960006ee4c3d0))
+* **deps-dev:** bump vitest from 4.1.10 to 4.1.11 ([#460](https://github.com/tada5hi/monoship/issues/460)) ([e500bb6](https://github.com/tada5hi/monoship/commit/e500bb69388201fcab55fe86bbab5eb7144151a6))
+* **deps:** bump brace-expansion from 5.0.9 to 5.0.12 ([#465](https://github.com/tada5hi/monoship/issues/465)) ([b64e4b1](https://github.com/tada5hi/monoship/commit/b64e4b1dfc20ebd1476ad3a2af0127e30c816d71))
+* **deps:** bump ip-address from 10.4.0 to 10.7.2 ([#464](https://github.com/tada5hi/monoship/issues/464)) ([84b8bab](https://github.com/tada5hi/monoship/commit/84b8babd9b89af7081aa7326ba48a38615d1f270))
+* **deps:** bump postcss-selector-parser from 7.1.4 to 7.1.6 ([#467](https://github.com/tada5hi/monoship/issues/467)) ([b6ac9b8](https://github.com/tada5hi/monoship/commit/b6ac9b840cf89b43f4a63c12b57be4367130fd41))
+* **deps:** bump undici from 8.9.0 to 8.12.3 ([#470](https://github.com/tada5hi/monoship/issues/470)) ([23fd36d](https://github.com/tada5hi/monoship/commit/23fd36de25ba4e57dffb802eb0870ade575c3faf))
+
 ## [2.2.0](https://github.com/tada5hi/monoship/compare/v2.1.0...v2.2.0) (2026-08-02)
 
 
