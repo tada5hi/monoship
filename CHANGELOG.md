@@ -9,6 +9,15 @@
 * **deps:** bump libnpmpublish from 9.0.8 to 9.0.9 ([#131](https://github.com/tada5hi/workspaces-publish/issues/131)) ([10c2d17](https://github.com/tada5hi/workspaces-publish/commit/10c2d177b48f85538768fadfbf5499492e14a7b0))
 * **deps:** bump the minorandpatch group with 14 updates ([#297](https://github.com/tada5hi/workspaces-publish/issues/297)) ([3be75b1](https://github.com/tada5hi/workspaces-publish/commit/3be75b19e990a929dd61f51b3734e549f01c6f47))
 
+## [2.2.2](https://github.com/tada5hi/monoship/compare/v2.2.1...v2.2.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps-dev:** bump browserslist from 4.28.2 to 4.28.9 ([#456](https://github.com/tada5hi/monoship/issues/456)) ([358df98](https://github.com/tada5hi/monoship/commit/358df98f64963b8e3d233de031f2b14ccca9e220))
+* **deps:** bump ip-address from 10.7.2 to 10.7.5 ([#472](https://github.com/tada5hi/monoship/issues/472)) ([77b45fd](https://github.com/tada5hi/monoship/commit/77b45fd20ab90d11bce7ea73e086e07228a333e8))
+* **deps:** bump picomatch from 2.3.1 to 2.3.2 ([#474](https://github.com/tada5hi/monoship/issues/474)) ([f833fd8](https://github.com/tada5hi/monoship/commit/f833fd8d36efe52594843712b48777dce054e36f))
+
 ## [2.2.1](https://github.com/tada5hi/monoship/compare/v2.2.0...v2.2.1) (2026-10-28)
 
 
