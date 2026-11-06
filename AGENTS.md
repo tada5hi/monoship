@@ -28,9 +28,7 @@ npm ci
 
 | Command                | Description                        |
 |------------------------|------------------------------------|
-| `npm run build`        | Clean, compile types, bundle JS    |
-| `npm run build:types`  | Emit TypeScript declarations only  |
-| `npm run build:js`     | Bundle with tsdown                 |
+| `npm run build`        | Bundle JavaScript and declarations with tsdown    |
 | `npm run lint`         | Run ESLint                         |
 | `npm run lint:fix`     | Run ESLint with auto-fix           |
 | `npm run test`         | Run Vitest test suite              |

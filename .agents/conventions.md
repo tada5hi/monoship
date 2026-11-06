@@ -135,8 +135,8 @@ The commit-msg hook enforces this via Husky + commitlint.
 
 ## Build Output
 
-- Library: `dist/index.mjs` (ESM) + `dist/index.d.ts` (types)
-- CLI: `dist/cli.mjs` (ESM with shebang `#!/usr/bin/env node`) + `dist/cli.cjs` (CommonJS)
+- Library: `dist/index.mjs` (ESM) + `dist/index.d.mts` (types)
+- CLI: `dist/cli.mjs` (ESM with shebang `#!/usr/bin/env node`)
 - The `bin` field in package.json points to `dist/cli.mjs`
 - All dependencies are externalized in tsdown — only project code is bundled
 
