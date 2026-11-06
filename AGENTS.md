@@ -51,6 +51,8 @@ The CLI entry point is `src/cli.ts`, built to `dist/cli.mjs`. The token is optio
 
 ## Detailed Guides
 
+
+AGENTS.md is the loaded entry point and the guide index. Read the linked guides when working on their topics.
 - **[Project Structure](.agents/structure.md)** — Source layout, core modules, and domain folders
 - **[Architecture](.agents/architecture.md)** — Hexagonal design, port interfaces, data flow, OIDC
 - **[Testing](.agents/testing.md)** — Memory adapters, test conventions, no vi.mock
