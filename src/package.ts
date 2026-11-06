@@ -23,6 +23,7 @@ export async function isPackagePublished(
 
     try {
         const { versions } = await registryClient.getPackument(name, options);
+
         if (typeof versions === 'undefined' || typeof versions[version] === 'undefined') {
             return false;
         }
@@ -41,12 +42,13 @@ export async function publishPackage(
     pkg: Package,
     publisher: IPackagePublisher,
     options: {
-        token?: string; 
-        registry: string; 
-        tag?: string 
+        token?: string;
+        registry: string;
+        tag?: string
     },
 ): Promise<boolean> {
     let pkgPath: string;
+
     if (path.isAbsolute(pkg.path)) {
         pkgPath = pkg.path;
     } else {
@@ -67,6 +69,7 @@ export async function publishPackage(
     }
 
     const tag = resolveDistTag(pkg, options.tag, publishOptions.tag);
+
     if (tag) {
         publishOptions.tag = tag;
     }
@@ -97,8 +100,10 @@ export async function correctLatestDistTag(
     }
 
     let latest: string | undefined;
+
     try {
         const packument = await registryClient.getPackument(name, options);
+
         latest = packument['dist-tags'] ?
             packument['dist-tags'].latest :
             undefined;
@@ -138,6 +143,7 @@ function resolveDistTag(
     }
 
     const prerelease = semver.prerelease(pkg.content.version);
+
     if (prerelease && prerelease.length > 0 && typeof prerelease[0] === 'string') {
         return prerelease[0];
     }

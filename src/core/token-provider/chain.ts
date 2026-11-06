@@ -21,6 +21,7 @@ export class ChainTokenProvider implements ITokenProvider {
     async getToken(packageName: string, registry: string): Promise<string | undefined> {
         for (const provider of this.providers) {
             const token = await provider.getToken(packageName, registry);
+
             if (token) {
                 return token;
             }

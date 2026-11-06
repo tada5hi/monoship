@@ -1,6 +1,6 @@
 import {
-    describe, 
-    expect, 
+    describe,
+    expect,
     it,
 } from 'vitest';
 import { NpmCliPublisher, NpmPublisher, resolvePublisher } from '../../src/core/index.ts';
@@ -9,18 +9,21 @@ describe('src/core/publisher/resolve', () => {
     it('should return NpmCliPublisher when npm version is >= 10.0.0', async () => {
         const execFn = async () => ({ stdout: '10.0.0\n', stderr: '' });
         const publisher = await resolvePublisher({ execFn });
+
         expect(publisher).toBeInstanceOf(NpmCliPublisher);
     });
 
     it('should return NpmCliPublisher for newer npm versions', async () => {
         const execFn = async () => ({ stdout: '11.5.1\n', stderr: '' });
         const publisher = await resolvePublisher({ execFn });
+
         expect(publisher).toBeInstanceOf(NpmCliPublisher);
     });
 
     it('should return NpmPublisher when npm version is below 10.0.0', async () => {
         const execFn = async () => ({ stdout: '9.9.9\n', stderr: '' });
         const publisher = await resolvePublisher({ execFn });
+
         expect(publisher).toBeInstanceOf(NpmPublisher);
     });
 
@@ -29,6 +32,7 @@ describe('src/core/publisher/resolve', () => {
             throw new Error('npm not found');
         };
         const publisher = await resolvePublisher({ execFn });
+
         expect(publisher).toBeInstanceOf(NpmPublisher);
     });
 
@@ -39,10 +43,12 @@ describe('src/core/publisher/resolve', () => {
             args: string[],
         ) => {
             calls.push({ command, args });
+
             return { stdout: '10.0.0\n', stderr: '' };
         };
 
         const publisher = await resolvePublisher({ execFn });
+
         expect(publisher).toBeInstanceOf(NpmCliPublisher);
 
         // The execFn should have been called once for version detection

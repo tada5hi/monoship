@@ -28,14 +28,17 @@ export class MemoryRegistryClient implements IRegistryClient {
 
     async getPackument(name: string): Promise<Packument> {
         const packument = this.items.get(name);
+
         if (!packument) {
             throw new RegistryError(`Package not found: ${name}`, 404);
         }
+
         return packument;
     }
 
     async putDistTag(name: string, tag: string, version: string): Promise<void> {
         const packument = this.items.get(name);
+
         if (!packument) {
             throw new RegistryError(`Package not found: ${name}`, 404);
         }

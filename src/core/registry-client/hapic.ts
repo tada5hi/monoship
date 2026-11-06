@@ -23,7 +23,7 @@ export class HapicRegistryClient implements IRegistryClient {
 
         try {
             const response = await hapic.get(
-                new URL(this.encodeName(name), options.registry || REGISTRY_URL).toString(),
+                new URL(this.encodeName(name), options.registry || REGISTRY_URL).href,
                 { headers },
             );
 
@@ -54,7 +54,7 @@ export class HapicRegistryClient implements IRegistryClient {
 
         try {
             await hapic.put(
-                new URL(path, options.registry || REGISTRY_URL).toString(),
+                new URL(path, options.registry || REGISTRY_URL).href,
                 JSON.stringify(version),
                 { headers },
             );

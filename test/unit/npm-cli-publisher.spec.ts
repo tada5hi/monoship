@@ -1,7 +1,7 @@
 import path from 'node:path';
 import {
-    describe, 
-    expect, 
+    describe,
+    expect,
     it,
 } from 'vitest';
 import { NpmCliPublisher, PublishError } from '../../src/core/index.ts';
@@ -17,6 +17,7 @@ function createFakeFs() {
             if (fp in files) {
                 return files[fp];
             }
+
             throw new Error('ENOENT');
         },
         writeFileFn: async (fp: string, content: string) => {
@@ -31,9 +32,9 @@ function createFakeFs() {
 
 function createFakeExec() {
     const calls: Array<{
-        command: string; 
-        args: string[]; 
-        options: { cwd: string; env: Record<string, string | undefined> } 
+        command: string;
+        args: string[];
+        options: { cwd: string; env: Record<string, string | undefined> }
     }> = [];
 
     const execFn = async (
@@ -42,10 +43,11 @@ function createFakeExec() {
         options: { cwd: string; env: Record<string, string | undefined> },
     ) => {
         calls.push({
-            command, 
-            args, 
-            options, 
+            command,
+            args,
+            options,
         });
+
         return { stdout: '', stderr: '' };
     };
 
@@ -57,9 +59,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -79,9 +81,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -99,9 +101,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -123,9 +125,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -142,9 +144,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -162,6 +164,7 @@ describe('src/core/publisher/npm-cli', () => {
         const { calls } = createFakeExec();
         const fs = createFakeFs();
         const npmrcPath = path.sep + path.join('project', 'packages', 'a', '.npmrc');
+
         fs.files[npmrcPath] = 'legacy-peer-deps=true\n';
 
         let contentDuringPublish = '';
@@ -172,17 +175,18 @@ describe('src/core/publisher/npm-cli', () => {
         ) => {
             contentDuringPublish = fs.files[npmrcPath] || '';
             calls.push({
-                command, 
-                args, 
-                options, 
+                command,
+                args,
+                options,
             });
+
             return { stdout: '', stderr: '' };
         };
 
         const publisher = new NpmCliPublisher({
-            execFn: capturingExecFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn: capturingExecFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -200,11 +204,13 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn } = createFakeExec();
         const fs = createFakeFs();
         const npmrcPath = path.sep + path.join('project', 'packages', 'a', '.npmrc');
+
         fs.files[npmrcPath] = 'existing-content';
+
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -226,9 +232,9 @@ describe('src/core/publisher/npm-cli', () => {
             fs.files[_fp] = content;
         };
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -248,9 +254,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -261,6 +267,7 @@ describe('src/core/publisher/npm-cli', () => {
         );
 
         const npmrcPath = path.sep + path.join('project', 'packages', 'a', '.npmrc');
+
         expect(calls[0].args).toContain('--userconfig');
         expect(calls[0].args).toContain(npmrcPath);
     });
@@ -269,9 +276,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -288,9 +295,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -308,9 +315,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -328,9 +335,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -348,9 +355,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -367,9 +374,9 @@ describe('src/core/publisher/npm-cli', () => {
         const { execFn, calls } = createFakeExec();
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -388,9 +395,9 @@ describe('src/core/publisher/npm-cli', () => {
         };
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -407,9 +414,9 @@ describe('src/core/publisher/npm-cli', () => {
         };
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -432,11 +439,13 @@ describe('src/core/publisher/npm-cli', () => {
         };
         const fs = createFakeFs();
         const npmrcPath = path.sep + path.join('project', 'packages', 'a', '.npmrc');
+
         fs.files[npmrcPath] = 'original-content';
+
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -456,14 +465,16 @@ describe('src/core/publisher/npm-cli', () => {
     it('should return false on npmjs EPUBLISHCONFLICT from stderr', async () => {
         const execFn = async () => {
             const err: Record<string, unknown> = new Error('Command failed');
+
             err.stderr = 'npm error code EPUBLISHCONFLICT';
+
             throw err;
         };
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -479,14 +490,16 @@ describe('src/core/publisher/npm-cli', () => {
     it('should return false on npmjs 403 version conflict from stderr', async () => {
         const execFn = async () => {
             const err: Record<string, unknown> = new Error('Command failed');
+
             err.stderr = '403 Forbidden - You cannot publish over the previously published versions: 1.0.0.';
+
             throw err;
         };
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 
@@ -502,14 +515,16 @@ describe('src/core/publisher/npm-cli', () => {
     it('should return false on GitHub Packages 409 conflict from stderr', async () => {
         const execFn = async () => {
             const err: Record<string, unknown> = new Error('Command failed');
+
             err.stderr = '409 Conflict - Cannot publish over existing version';
+
             throw err;
         };
         const fs = createFakeFs();
         const publisher = new NpmCliPublisher({
-            execFn, 
-            readFileFn: fs.readFileFn, 
-            writeFileFn: fs.writeFileFn, 
+            execFn,
+            readFileFn: fs.readFileFn,
+            writeFileFn: fs.writeFileFn,
             unlinkFn: fs.unlinkFn,
         });
 

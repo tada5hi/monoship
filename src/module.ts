@@ -7,17 +7,17 @@
 
 import path from 'node:path';
 import {
-    EnvTokenProvider, 
+    EnvTokenProvider,
     HapicRegistryClient,
-    MemoryTokenProvider, 
-    NodeFileSystem, 
-    NoopLogger, 
+    MemoryTokenProvider,
+    NodeFileSystem,
+    NoopLogger,
     resolvePublisher,
 } from './core/index.ts';
 import type {
-    IFileSystem, 
-    ITokenProvider, 
-    Package, 
+    IFileSystem,
+    ITokenProvider,
+    Package,
     PackageJson,
 } from './core/index.ts';
 import { REGISTRY_URL } from './constants.ts';
@@ -88,6 +88,7 @@ export async function publish(options: PublishOptions = {}): Promise<Package[]> 
 
     const raw = await fileSystem.readFile(path.posix.join(cwd, 'package.json'));
     let pkg: PackageJson;
+
     try {
         pkg = JSON.parse(raw);
     } catch {
@@ -117,6 +118,7 @@ export async function publish(options: PublishOptions = {}): Promise<Package[]> 
     updatePackagesDependencies(packages);
 
     const unpublishedPackages: Array<{ pkg: Package; token?: string }> = [];
+
     for (const p of packages) {
         if (!isPackagePublishable(p)) {
             continue;
@@ -124,11 +126,13 @@ export async function publish(options: PublishOptions = {}): Promise<Package[]> 
 
         if (p.valid === false) {
             logger.warn(`Skipping ${p.content.name}: unresolved workspace dependencies`);
+
             continue;
         }
 
         const token = await tokenProvider.getToken(p.content.name, registry);
         const published = await isPackagePublished(p, registryClient, { registry, token });
+
         if (published) {
             continue;
         }
@@ -141,7 +145,9 @@ export async function publish(options: PublishOptions = {}): Promise<Package[]> 
                 );
             } catch (e) {
                 const message = isError(e) ? e.message : String(e);
+
                 logger.warn(`Failed to write package.json for ${p.content.name}: ${message}`);
+
                 continue;
             }
         }
@@ -167,11 +173,13 @@ export async function publish(options: PublishOptions = {}): Promise<Package[]> 
         if (p.published && fixLatest) {
             try {
                 const corrected = await correctLatestDistTag(p, registryClient, { registry, token });
+
                 if (corrected) {
                     logger.info(`Repointed latest dist-tag of ${p.content.name} to ${p.content.version}`);
                 }
             } catch (e) {
                 const message = isError(e) ? e.message : String(e);
+
                 logger.warn(`Failed to correct latest dist-tag for ${p.content.name}: ${message}`);
             }
         }

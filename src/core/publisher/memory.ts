@@ -10,9 +10,9 @@ import type { IPackagePublisher } from './types.ts';
 
 export class MemoryPublisher implements IPackagePublisher {
     public published: Array<{
-        packagePath: string; 
-        manifest: PackageJson; 
-        options: Record<string, any> 
+        packagePath: string;
+        manifest: PackageJson;
+        options: Record<string, any>
     }>;
 
     // ----------------------------------------------------
@@ -29,10 +29,11 @@ export class MemoryPublisher implements IPackagePublisher {
         options: Record<string, any>,
     ): Promise<boolean> {
         this.published.push({
-            packagePath, 
-            manifest, 
-            options, 
+            packagePath,
+            manifest,
+            options,
         });
+
         return true;
     }
 }

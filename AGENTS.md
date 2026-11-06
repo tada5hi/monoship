@@ -16,7 +16,8 @@ The project uses a **hexagonal architecture** (ports & adapters) — all externa
 
 ### Requirements
 
-- **Node.js**: >= 22.0.0
+- **Runtime Node.js**: >= 22.0.0
+- **Development Node.js**: 24.11+ on the 24.x line, or 26+; `.nvmrc` selects Node 24 for the installed tooling.
 - **npm**: 7+ (workspace support required)
 
 ### Setup

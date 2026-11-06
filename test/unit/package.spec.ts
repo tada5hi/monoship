@@ -1,13 +1,13 @@
 import {
-    describe, 
-    expect, 
+    describe,
+    expect,
     it,
 } from 'vitest';
 import {
-    MemoryPublisher, 
-    MemoryRegistryClient, 
-    NpmCliPublisher, 
-    PublishError, 
+    MemoryPublisher,
+    MemoryRegistryClient,
+    NpmCliPublisher,
+    PublishError,
     RegistryError,
 } from '../../src/core/index.ts';
 import {
@@ -26,6 +26,7 @@ function createFakeFs() {
             if (fp in files) {
                 return files[fp];
             }
+
             throw new Error('ENOENT');
         },
         writeFileFn: async (fp: string, content: string) => {
@@ -44,6 +45,7 @@ describe('src/package', () => {
                 path: '/project/packages/a',
                 content: { name: 'pkg-a', version: '1.0.0' },
             };
+
             expect(isPackagePublishable(pkg)).toBe(true);
         });
 
@@ -51,11 +53,12 @@ describe('src/package', () => {
             const pkg: Package = {
                 path: '/project/packages/a',
                 content: {
-                    name: 'pkg-a', 
-                    version: '1.0.0', 
-                    private: true, 
+                    name: 'pkg-a',
+                    version: '1.0.0',
+                    private: true,
                 },
             };
+
             expect(isPackagePublishable(pkg)).toBe(false);
         });
 
@@ -64,6 +67,7 @@ describe('src/package', () => {
                 path: '/project/packages/a',
                 content: { name: '', version: '1.0.0' },
             };
+
             expect(isPackagePublishable(pkg)).toBe(false);
         });
 
@@ -72,6 +76,7 @@ describe('src/package', () => {
                 path: '/project/packages/a',
                 content: { name: 'pkg-a', version: '' },
             };
+
             expect(isPackagePublishable(pkg)).toBe(false);
         });
     });
@@ -92,6 +97,7 @@ describe('src/package', () => {
             };
 
             const result = await isPackagePublished(pkg, registry, { registry: 'https://registry.npmjs.org/' });
+
             expect(result).toBe(true);
         });
 
@@ -110,6 +116,7 @@ describe('src/package', () => {
             };
 
             const result = await isPackagePublished(pkg, registry, { registry: 'https://registry.npmjs.org/' });
+
             expect(result).toBe(false);
         });
 
@@ -121,6 +128,7 @@ describe('src/package', () => {
             };
 
             const result = await isPackagePublished(pkg, registry, { registry: 'https://registry.npmjs.org/' });
+
             expect(result).toBe(false);
         });
 
@@ -156,6 +164,7 @@ describe('src/package', () => {
             };
 
             const result = await isPackagePublished(pkg, registry, { registry: 'https://registry.npmjs.org/' });
+
             expect(result).toBe(false);
         });
 
@@ -208,6 +217,7 @@ describe('src/package', () => {
             ]);
 
             const packument = await registry.getPackument('pkg-a');
+
             expect(packument['dist-tags'].latest).toEqual('2.0.0-beta.13');
         });
 
@@ -434,14 +444,16 @@ describe('src/package', () => {
         it('should return false on npmjs EPUBLISHCONFLICT', async () => {
             const execFn = async () => {
                 const err: Record<string, unknown> = new Error('Command failed');
+
                 err.stderr = 'npm error code EPUBLISHCONFLICT';
+
                 throw err;
             };
             const fs = createFakeFs();
             const publisher = new NpmCliPublisher({
-                execFn, 
-                readFileFn: fs.readFileFn, 
-                writeFileFn: fs.writeFileFn, 
+                execFn,
+                readFileFn: fs.readFileFn,
+                writeFileFn: fs.writeFileFn,
                 unlinkFn: fs.unlinkFn,
             });
             const pkg: Package = {
@@ -460,14 +472,16 @@ describe('src/package', () => {
         it('should return false on npmjs 403 version conflict', async () => {
             const execFn = async () => {
                 const err: Record<string, unknown> = new Error('Command failed');
+
                 err.stderr = '403 Forbidden - You cannot publish over the previously published versions: 1.0.0.';
+
                 throw err;
             };
             const fs = createFakeFs();
             const publisher = new NpmCliPublisher({
-                execFn, 
-                readFileFn: fs.readFileFn, 
-                writeFileFn: fs.writeFileFn, 
+                execFn,
+                readFileFn: fs.readFileFn,
+                writeFileFn: fs.writeFileFn,
                 unlinkFn: fs.unlinkFn,
             });
             const pkg: Package = {
@@ -486,14 +500,16 @@ describe('src/package', () => {
         it('should return false on GitHub Packages 409 conflict', async () => {
             const execFn = async () => {
                 const err: Record<string, unknown> = new Error('Command failed');
+
                 err.stderr = '409 Conflict - Cannot publish over existing version';
+
                 throw err;
             };
             const fs = createFakeFs();
             const publisher = new NpmCliPublisher({
-                execFn, 
-                readFileFn: fs.readFileFn, 
-                writeFileFn: fs.writeFileFn, 
+                execFn,
+                readFileFn: fs.readFileFn,
+                writeFileFn: fs.writeFileFn,
                 unlinkFn: fs.unlinkFn,
             });
             const pkg: Package = {
@@ -515,9 +531,9 @@ describe('src/package', () => {
             };
             const fs = createFakeFs();
             const publisher = new NpmCliPublisher({
-                execFn, 
-                readFileFn: fs.readFileFn, 
-                writeFileFn: fs.writeFileFn, 
+                execFn,
+                readFileFn: fs.readFileFn,
+                writeFileFn: fs.writeFileFn,
                 unlinkFn: fs.unlinkFn,
             });
             const pkg: Package = {
