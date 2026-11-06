@@ -1,5 +1,3 @@
-<!-- NOTE: Keep this file and all corresponding files in the .agents directory updated as the project evolves. When making architectural changes, adding new patterns, or discovering important conventions, update the relevant sections. -->
-
 # monoship — Agent Guide
 
 ## Project Overview
@@ -30,9 +28,7 @@ npm ci
 
 | Command                | Description                        |
 |------------------------|------------------------------------|
-| `npm run build`        | Clean, compile types, bundle JS    |
-| `npm run build:types`  | Emit TypeScript declarations only  |
-| `npm run build:js`     | Bundle with Rollup                 |
+| `npm run build`        | Bundle JavaScript and declarations with tsdown    |
 | `npm run lint`         | Run ESLint                         |
 | `npm run lint:fix`     | Run ESLint with auto-fix           |
 | `npm run test`         | Run Vitest test suite              |
@@ -59,6 +55,15 @@ The CLI entry point is `src/cli.ts`, built to `dist/cli.mjs`. The token is optio
 - **[Architecture](.agents/architecture.md)** — Hexagonal design, port interfaces, data flow, OIDC
 - **[Testing](.agents/testing.md)** — Memory adapters, test conventions, no vi.mock
 - **[Conventions](.agents/conventions.md)** — Code style, ESLint constraints, hexagonal rules
+
+### Writing agent docs
+
+Keep the guides factual and focused on contracts a future change could silently break.
+
+- Keep existing commands, paths and factual descriptions current. Add guide content only for an invariant or cross-cutting rule. Put defect stories and verification details in the PR, and user-facing changes in the documentation site or release notes.
+- Keep subsystem detail in `.agents/topics/` and link it from the relevant guide; do not import topic files into `CLAUDE.md`.
+- Describe current behavior and cite issues or PRs, rather than local plan files or a running history of completed work.
+- `npm run lint` enforces the shared config's agent-doc size, import-budget and history checks. Preserve the critical contracts when splitting a guide.
 
 ## Commits, Issues & Pull Requests
 

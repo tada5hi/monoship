@@ -2,7 +2,7 @@
 
 ## Test Framework
 
-The project uses **Vitest** (v4.x) with **SWC** for TypeScript compilation.
+The project uses **Vitest** with its configured TypeScript transform and the v8 coverage provider.
 
 ## Running Tests
 

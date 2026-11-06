@@ -4,11 +4,10 @@
 
 | Tool           | Purpose                                      |
 |----------------|----------------------------------------------|
-| **Rollup**     | Module bundler (ESM output)                  |
-| **SWC**        | TypeScript compilation (via @rollup/plugin-swc) |
+| **tsdown** | Module bundler (ESM output) |
 | **TypeScript** | Type checking (`tsc --emitDeclarationOnly`)  |
 | **Vitest**     | Test runner                                  |
-| **ESLint**     | Linting (`@tada5hi/eslint-config` v2 flat config) |
+| **ESLint**     | Linting (`@tada5hi/eslint-config` flat config) |
 | **Husky**      | Git hooks                                    |
 | **commitlint** | Conventional commit message enforcement      |
 
@@ -20,7 +19,7 @@
 - **Charset**: UTF-8
 - **Final newline**: Always present
 
-ESLint uses `@tada5hi/eslint-config` v2 (flat config in `eslint.config.js`). Key overrides:
+ESLint uses `@tada5hi/eslint-config` (flat config in `eslint.config.js`). Key overrides:
 - `class-methods-use-this` — disabled
 - `no-shadow` — disabled
 - `no-use-before-define` — disabled
@@ -136,10 +135,10 @@ The commit-msg hook enforces this via Husky + commitlint.
 
 ## Build Output
 
-- Library: `dist/index.mjs` (ESM) + `dist/index.d.ts` (types)
-- CLI: `dist/cli.mjs` (ESM with shebang `#!/usr/bin/env node`) + `dist/cli.cjs` (CommonJS)
+- Library: `dist/index.mjs` (ESM) + `dist/index.d.mts` (types)
+- CLI: `dist/cli.mjs` (ESM with shebang `#!/usr/bin/env node`)
 - The `bin` field in package.json points to `dist/cli.mjs`
-- All dependencies are externalized in Rollup — only project code is bundled
+- All dependencies are externalized in tsdown — only project code is bundled
 
 ## Workflow Rules
 
