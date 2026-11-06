@@ -25,6 +25,7 @@ export async function resolvePublisher(options: { execFn?: ExecFn } = {}): Promi
             env: process.env as Record<string, string | undefined>,
         });
         const version = stdout.trim();
+
         if (semver.gte(version, NPM_MIN_VERSION)) {
             return new NpmCliPublisher({ execFn });
         }

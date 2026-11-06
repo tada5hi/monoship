@@ -24,9 +24,11 @@ export class MemoryFileSystem implements IFileSystem {
     async readFile(filePath: string): Promise<string> {
         const normalized = this.normalize(filePath);
         const content = this.files.get(normalized);
+
         if (content === undefined) {
             throw new Error(`ENOENT: no such file or directory, open '${filePath}'`);
         }
+
         return content;
     }
 
@@ -55,6 +57,7 @@ export class MemoryFileSystem implements IFileSystem {
                     const dir = parts.slice(0, pattern.split('/').length)
                         .join('/');
                     const absolute = cwd ? `${cwd}/${dir}` : dir;
+
                     dirs.add(absolute);
                 }
             }
@@ -77,10 +80,17 @@ export class MemoryFileSystem implements IFileSystem {
         const patternParts = pattern.split('/');
 
         for (const [i, pp] of patternParts.entries()) {
-            if (i >= parts.length) return false;
+            if (i >= parts.length) {
+                return false;
+            }
 
-            if (pp === '*' || pp === '**') continue;
-            if (pp !== parts[i]) return false;
+            if (pp === '*' || pp === '**') {
+                continue;
+            }
+
+            if (pp !== parts[i]) {
+                return false;
+            }
         }
 
         return true;

@@ -45,6 +45,7 @@ function normalizeDependencyVersionValue(input: string, pkgVersion: string) : st
     }
 
     const firstCharacter = input.substring(0, 1);
+
     if (
         firstCharacter === '*' ||
         firstCharacter === '~' ||
@@ -70,25 +71,31 @@ function updatePackageDependenciesByType(
     pkgDir: Record<string, Package>,
 ) {
     const dependencies = pkg.content[depType];
+
     if (!dependencies) {
         return;
     }
 
     const keys = Object.keys(dependencies);
+
     for (const key of keys) {
         const value = dependencies[key];
+
         if (!value || !isDependencyWorkspaceProtocolValue(value)) {
             continue;
         }
 
         if (!hasOwnProperty(pkgDir, key)) {
             pkg.valid = false;
+
             continue;
         }
 
         const depPkg = pkgDir[key];
+
         if (!depPkg) {
             pkg.valid = false;
+
             continue;
         }
 

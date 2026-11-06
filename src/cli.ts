@@ -9,13 +9,13 @@
 
 import { cac } from 'cac';
 import {
-    ChainTokenProvider, 
-    ConsolaLogger, 
+    ChainTokenProvider,
+    ConsolaLogger,
     EnvTokenProvider,
-    HapicRegistryClient, 
-    MemoryTokenProvider, 
+    HapicRegistryClient,
+    MemoryTokenProvider,
     NodeFileSystem,
-    OidcTokenProvider, 
+    OidcTokenProvider,
     resolvePublisher,
 } from './core/index.ts';
 import type { ITokenProvider } from './core/index.ts';
@@ -25,6 +25,7 @@ import { isError } from './utils/index.ts';
 function isValidUrl(input: string): boolean {
     try {
         const parsed = new URL(input);
+
         return !!parsed.protocol;
     } catch {
         return false;
@@ -103,6 +104,7 @@ cli
                 logger.info('No packages need to be published.');
             } else if (options.dryRun) {
                 logger.info('Dry run — the following packages would be published:');
+
                 for (const pkg of packages) {
                     logger.info(`  ${pkg.content.name}@${pkg.content.version} → ${options.registry}`);
                 }
@@ -110,6 +112,7 @@ cli
                 for (const pkg of packages) {
                     logger.success(`Published ${pkg.content.name}@${pkg.content.version}`);
                 }
+
                 logger.info(`Published ${packages.length} package(s).`);
             }
 
@@ -117,12 +120,14 @@ cli
         } catch (e) {
             if (isError(e)) {
                 logger.error(e.message);
+
                 if (process.env.DEBUG) {
                     logger.error(e.stack || '');
                 }
             } else {
                 logger.error('An unknown error occurred.');
             }
+
             process.exit(1);
         }
     });

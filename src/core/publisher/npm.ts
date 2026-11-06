@@ -26,7 +26,9 @@ export class NpmPublisher implements IPackagePublisher {
     ): Promise<boolean> {
         try {
             const tarball = await libnpmpack(packagePath);
+
             await publish(manifest, tarball, options);
+
             return true;
         } catch (e) {
             if (this.isNpmJsVersionConflict(e) || this.isNpmPkgGitHubVersionConflict(e)) {

@@ -46,6 +46,7 @@ export class OidcTokenProvider implements ITokenProvider {
     async getToken(packageName: string, registry: string): Promise<string | undefined> {
         const cacheKey = `${packageName}@${registry}`;
         const cached = this.tokenCache.get(cacheKey);
+
         if (cached) {
             return cached;
         }
@@ -65,6 +66,7 @@ export class OidcTokenProvider implements ITokenProvider {
 
         const oidcBody = await oidcResponse.json() as { value?: string };
         const idToken = oidcBody.value;
+
         if (!idToken) {
             throw new Error('OIDC response did not contain a valid token');
         }
@@ -73,7 +75,7 @@ export class OidcTokenProvider implements ITokenProvider {
         const exchangeUrl = new URL(
             `/-/npm/v1/oidc/token/exchange/package/${encodedName}`,
             registry,
-        ).toString();
+        ).href;
 
         const exchangeResponse = await this.fetchWithRetry(exchangeUrl, {
             method: 'POST',
@@ -87,6 +89,7 @@ export class OidcTokenProvider implements ITokenProvider {
         }
 
         const { token } = await exchangeResponse.json() as { token?: string };
+
         if (!token) {
             throw new Error('Token exchange response did not contain a valid token');
         }
@@ -102,12 +105,14 @@ export class OidcTokenProvider implements ITokenProvider {
         for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
             try {
                 const response = await this.fetchFn(url, init);
+
                 if (response.ok || response.status < 500) {
                     return response;
                 }
 
                 if (attempt < this.maxRetries) {
                     await this.delay(this.retryDelayMs * (attempt + 1));
+
                     continue;
                 }
 

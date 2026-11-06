@@ -1,21 +1,23 @@
 import {
-    describe, 
-    expect, 
+    describe,
+    expect,
     it,
 } from 'vitest';
 import { OidcTokenProvider } from '../../src/core/index.ts';
 
 function createFakeFetch(responses: Array<{
-    ok: boolean; 
-    status: number; 
-    body: any 
+    ok: boolean;
+    status: number;
+    body: any
 }>) {
     let callIndex = 0;
     const calls: Array<{ url: string; init?: RequestInit }> = [];
 
     const fetchFn = async (url: string, init?: RequestInit) => {
         calls.push({ url, init });
+
         const response = responses[callIndex++];
+
         return {
             ok: response.ok,
             status: response.status,
@@ -34,17 +36,17 @@ const GITHUB_REGISTRY = 'https://npm.pkg.github.com/';
 
 function ok(body: any, status = 200) {
     return {
-        ok: true, 
-        status, 
-        body, 
+        ok: true,
+        status,
+        body,
     };
 }
 
 function fail(status: number) {
     return {
-        ok: false, 
-        status, 
-        body: {}, 
+        ok: false,
+        status,
+        body: {},
     };
 }
 
@@ -105,9 +107,9 @@ describe('OidcTokenProvider', () => {
 
     it('should fetch separate tokens for different packages', async () => {
         const { fetchFn, calls } = createFakeFetch([
-            ok({ value: 'oidc-1' }), 
+            ok({ value: 'oidc-1' }),
             ok({ token: 'token-a' }, 201),
-            ok({ value: 'oidc-2' }), 
+            ok({ value: 'oidc-2' }),
             ok({ token: 'token-b' }, 201),
         ]);
 
@@ -120,9 +122,9 @@ describe('OidcTokenProvider', () => {
 
     it('should use separate cache entries for different registries', async () => {
         const { fetchFn, calls } = createFakeFetch([
-            ok({ value: 'oidc-1' }), 
+            ok({ value: 'oidc-1' }),
             ok({ token: 'npm-token' }, 201),
-            ok({ value: 'oidc-2' }), 
+            ok({ value: 'oidc-2' }),
             ok({ token: 'github-token' }, 201),
         ]);
 
@@ -156,11 +158,12 @@ describe('OidcTokenProvider', () => {
 
     it('should construct correct audience from registry URL', async () => {
         const { fetchFn, calls } = createFakeFetch([
-            ok({ value: 'token' }), 
+            ok({ value: 'token' }),
             ok({ token: 't' }, 201),
         ]);
 
         const provider = createProvider(fetchFn);
+
         await provider.getToken('pkg', GITHUB_REGISTRY);
 
         expect(calls[0].url).toContain('audience=npm%3Anpm.pkg.github.com');
@@ -168,11 +171,12 @@ describe('OidcTokenProvider', () => {
 
     it('should use ? separator when requestUrl has no query string', async () => {
         const { fetchFn, calls } = createFakeFetch([
-            ok({ value: 'token' }), 
+            ok({ value: 'token' }),
             ok({ token: 't' }, 201),
         ]);
 
         const provider = createProvider(fetchFn, { url: OIDC_URL });
+
         await provider.getToken('pkg', NPM_REGISTRY);
 
         expect(calls[0].url).toEqual(
@@ -182,11 +186,12 @@ describe('OidcTokenProvider', () => {
 
     it('should encode unscoped package names correctly', async () => {
         const { fetchFn, calls } = createFakeFetch([
-            ok({ value: 'token' }), 
+            ok({ value: 'token' }),
             ok({ token: 't' }, 201),
         ]);
 
         const provider = createProvider(fetchFn);
+
         await provider.getToken('my-package', NPM_REGISTRY);
 
         expect(calls[1].url).toContain('/-/npm/v1/oidc/token/exchange/package/my-package');
@@ -200,6 +205,7 @@ describe('OidcTokenProvider', () => {
         ]);
 
         const provider = createProvider(fetchFn, { maxRetries: 1 });
+
         expect(await provider.getToken('pkg-a', NPM_REGISTRY)).toEqual('npm-token');
     });
 
@@ -217,22 +223,30 @@ describe('OidcTokenProvider', () => {
         let callCount = 0;
         const fetchFn = async () => {
             callCount++;
-            if (callCount === 1) throw new Error('ECONNRESET');
-            if (callCount === 2) {return {
-                ok: true, 
-                status: 200, 
-                statusText: 'OK', 
-                json: async () => ({ value: 'oidc-token' }), 
-            } as Response;}
+
+            if (callCount === 1) {
+                throw new Error('ECONNRESET');
+            }
+
+            if (callCount === 2) {
+                return {
+                    ok: true,
+                    status: 200,
+                    statusText: 'OK',
+                    json: async () => ({ value: 'oidc-token' }),
+                } as Response;
+            }
+
             return {
-                ok: true, 
-                status: 201, 
-                statusText: 'OK', 
-                json: async () => ({ token: 'npm-token' }), 
+                ok: true,
+                status: 201,
+                statusText: 'OK',
+                json: async () => ({ token: 'npm-token' }),
             } as Response;
         };
 
         const provider = createProvider(fetchFn, { maxRetries: 1 });
+
         expect(await provider.getToken('pkg-a', NPM_REGISTRY)).toEqual('npm-token');
     });
 

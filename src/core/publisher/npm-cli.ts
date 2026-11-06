@@ -29,14 +29,16 @@ function parseAuthTokenEntry(
     options: Record<string, any>,
     registry?: string,
 ): {
-    key: string; 
-    token: string; 
-    registryPath: string 
+    key: string;
+    token: string;
+    registryPath: string
 } | undefined {
     let registryScope: string | undefined;
+
     if (registry) {
         try {
             const url = new URL(registry);
+
             registryScope = `//${url.host}${url.pathname.replace(/\/$/, '')}`;
         } catch {
             // invalid registry URL — skip scope matching
@@ -44,14 +46,16 @@ function parseAuthTokenEntry(
     }
 
     let fallback: {
-        key: string; 
-        token: string; 
-        registryPath: string 
+        key: string;
+        token: string;
+        registryPath: string
     } | undefined;
     const keys = Object.keys(options);
+
     for (const key of keys) {
         const match = AUTH_TOKEN_PATTERN.exec(key);
         const registryPath = match?.[1];
+
         if (match && registryPath && options[key]) {
             const entry = {
                 key,
@@ -145,9 +149,11 @@ export class NpmCliPublisher implements IPackagePublisher {
 
             const registryUrl = options.registry || `https:${authEntry.registryPath}`;
             let npmrcContent: string;
+
             try {
                 const url = new URL(registryUrl);
                 const registryPath = url.pathname.replace(/\/$/, '');
+
                 npmrcContent = `//${url.host}${registryPath}/:_authToken=\${NODE_AUTH_TOKEN}\n`;
             } catch {
                 throw new PublishError(`Invalid registry URL: ${registryUrl}`);
@@ -177,6 +183,7 @@ export class NpmCliPublisher implements IPackagePublisher {
                 cwd: packagePath,
                 env,
             });
+
             return true;
         } catch (e: unknown) {
             if (this.isVersionConflict(e)) {
@@ -209,9 +216,11 @@ export class NpmCliPublisher implements IPackagePublisher {
         }
 
         let stderr = '';
+
         if (typeof e.stderr === 'string') {
             stderr = e.stderr;
         }
+
         const message = isError(e) ? e.message : '';
         const combined = `${stderr} ${message}`;
 

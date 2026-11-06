@@ -1,13 +1,13 @@
 import {
-    describe, 
-    expect, 
+    describe,
+    expect,
     it,
 } from 'vitest';
 import {
-    MemoryFileSystem, 
+    MemoryFileSystem,
     MemoryPublisher,
-    MemoryRegistryClient, 
-    MemoryTokenProvider, 
+    MemoryRegistryClient,
+    MemoryTokenProvider,
     NoopLogger,
 } from '../../src/core/index.ts';
 import type { ILogger } from '../../src/core/index.ts';
@@ -53,11 +53,14 @@ function createTestOptions(overrides: Record<string, any> = {}) {
 
 function createSpyLogger(): ILogger & { warnings: string[] } {
     const warnings: string[] = [];
+
     return {
         warnings,
         info: () => {},
         success: () => {},
-        warn: (msg: string) => { warnings.push(msg); },
+        warn: (msg: string) => {
+            warnings.push(msg);
+        },
         error: () => {},
     };
 }
@@ -133,6 +136,7 @@ describe('src/module', () => {
         await publish(createTestOptions({ fileSystem: fs, dryRun: true }));
 
         const pkgA = JSON.parse(await fs.readFile('/project/packages/pkgA/package.json'));
+
         expect(pkgA.dependencies['pkg-b']).toEqual('workspace:^');
     });
 
@@ -151,6 +155,7 @@ describe('src/module', () => {
         await publish(createTestOptions({ fileSystem: fs, dryRun: false }));
 
         const pkgA = JSON.parse(await fs.readFile('/project/packages/pkgA/package.json'));
+
         expect(pkgA.dependencies['pkg-b']).toEqual('^1.0.0');
     });
 
@@ -160,7 +165,9 @@ describe('src/module', () => {
         await publish(createTestOptions({ publisher }));
 
         expect(publisher.published.length).toEqual(3);
+
         const names = publisher.published.map((p) => p.manifest.name);
+
         expect(names).toContain('foo');
         expect(names).toContain('pkg-a');
         expect(names).toContain('pkg-c');
@@ -172,6 +179,7 @@ describe('src/module', () => {
         await publish(createTestOptions({ publisher, tag: 'next' }));
 
         expect(publisher.published.length).toEqual(3);
+
         for (const p of publisher.published) {
             expect(p.options.tag).toEqual('next');
         }
@@ -195,6 +203,7 @@ describe('src/module', () => {
 
         const root = publisher.published.find((p) => p.manifest.name === 'foo');
         const a = publisher.published.find((p) => p.manifest.name === 'pkg-a');
+
         expect(root?.options.tag).toEqual('beta');
         expect(a?.options.tag).toBeUndefined();
     });
@@ -280,7 +289,9 @@ describe('src/module', () => {
                 versions: { '2.0.0-beta.0': { name: 'solo', version: '2.0.0-beta.0' } },
             },
         });
+
         registryClient.putDistTag = () => Promise.reject(new Error('registry unavailable'));
+
         const fs = new MemoryFileSystem({
             '/project/package.json': JSON.stringify({
                 name: 'solo',
@@ -304,7 +315,9 @@ describe('src/module', () => {
         const packages = await publish(createTestOptions({ rootPackage: false }));
 
         expect(packages.length).toEqual(2);
+
         const names = packages.map((p) => p.content.name);
+
         expect(names).not.toContain('foo');
     });
 
@@ -328,9 +341,11 @@ describe('src/module', () => {
 
         expect(packages.length).toEqual(1);
         expect(publisher.published.length).toEqual(1);
+
         // Auth token key should not be present in publish options
         const opts = publisher.published[0].options;
         const authKeys = Object.keys(opts).filter((k) => k.includes(':_authToken'));
+
         expect(authKeys.length).toEqual(0);
     });
 
@@ -363,8 +378,8 @@ describe('src/module', () => {
         const packages = await publish(createTestOptions({
             fileSystem: new MemoryFileSystem({
                 '/project/package.json': JSON.stringify({
-                    name: 'root', 
-                    version: '1.0.0', 
+                    name: 'root',
+                    version: '1.0.0',
                     workspaces: ['packages/*'],
                 }),
                 '/project/packages/pkgA/package.json': JSON.stringify({
@@ -379,6 +394,7 @@ describe('src/module', () => {
         }));
 
         const names = packages.map((p) => p.content.name);
+
         expect(names).not.toContain('pkg-a');
         expect(names).toContain('pkg-b');
         expect(logger.warnings.some((w) => w.includes('pkg-a') && w.includes('unresolved'))).toBe(true);
@@ -427,8 +443,8 @@ describe('src/module', () => {
     it('should skip package when writeFile fails during dependency rewrite', async () => {
         const baseFs = new MemoryFileSystem({
             '/project/package.json': JSON.stringify({
-                name: 'root', 
-                version: '1.0.0', 
+                name: 'root',
+                version: '1.0.0',
                 workspaces: ['packages/*'],
             }),
             '/project/packages/pkgA/package.json': JSON.stringify({
@@ -452,6 +468,7 @@ describe('src/module', () => {
         }));
 
         const names = packages.map((p) => p.content.name);
+
         expect(names).not.toContain('pkg-a');
         expect(names).toContain('pkg-b');
         expect(logger.warnings.some((w) => w.includes('pkg-a') && w.includes('disk full'))).toBe(true);
