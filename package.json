@@ -80,6 +80,9 @@
         "typescript-eslint": "^8.65.0",
         "vitest": "^4.1.5"
     },
+    "overrides": {
+        "@vitest/mocker": "4.1.12"
+    },
     "publishConfig": {
         "access": "public"
     }
