@@ -88,7 +88,7 @@ monoship/
 │   └── conventions.md                  # Code style & workflow rules
 ├── package.json
 ├── tsconfig.json
-├── rollup.config.mjs                   # Rollup bundler config
+├── tsdown.config.ts                    # Bundler configuration
 ├── eslint.config.js                    # ESLint flat config
 ├── commitlint.config.cjs              # Conventional commit enforcement
 ├── .editorconfig
