@@ -194,7 +194,7 @@ describe('OidcTokenProvider', () => {
 
         await provider.getToken('my-package', NPM_REGISTRY);
 
-        expect(calls[1].url).toContain('/-/npm/v1/oidc/token/exchange/package/my-package');
+        expect(calls[1].url).toEqual('https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/my-package');
     });
 
     it('should retry on 5xx and succeed', async () => {
